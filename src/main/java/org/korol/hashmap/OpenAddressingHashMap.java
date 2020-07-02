@@ -19,6 +19,38 @@ public class OpenAddressingHashMap {
         amplificationCoefficient=1.5;
         size=0;
     }
+    private class Entry {
+        private final int key;
+        private final long value;
+        private boolean deleted;
+
+        public Entry(int key, long value) {
+            this.key = key;
+            this.value = value;
+            this.deleted=false;
+        }
+
+        public int getKey() {
+            return key;
+        }
+
+        public long getValue() {
+            return value;
+        }
+
+        public boolean isDeleted() {
+            return deleted;
+        }
+
+        public boolean deleteEntry(){
+            if (!this.deleted){
+                this.deleted=true;
+                return true;
+            }
+            return false;
+        }
+
+    }
 
     private int hash (int key){
         return key % capacity;
@@ -85,22 +117,7 @@ public class OpenAddressingHashMap {
             }
         throw new NoSuchElementExeption();
     }
-    @Override
-    public String toString() {
 
-        StringBuilder stringBuilder=new StringBuilder();
-        for (int i = 0; i <table.length ; i++) {
-            if (table[i]!=null) {
-                stringBuilder.append(table[i].getKey()
-                        + ":" + table[i].getValue() + "\n");
-            }
-        }
-
-
-
-
-        return String.valueOf(stringBuilder);
-    }
     public boolean remove(int key) {
         int hash=hash(key);
         try{
@@ -120,6 +137,14 @@ public class OpenAddressingHashMap {
         }
     }
 
+    private boolean containsKey(int key){
+        for (Entry el:table){
+            if (el.getKey()==key)
+                return true;
+        }
+        return false;
+    }
+
     private boolean needsToAmplify(){
         return size > capacity * loadFactor?true:false;
     }
@@ -134,6 +159,5 @@ public class OpenAddressingHashMap {
             if (oldTable[i]!=null && !oldTable[i].isDeleted())
             put(oldTable[i].getKey(),oldTable[i].getValue());
         }
-
     }
 }
