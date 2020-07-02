@@ -84,7 +84,8 @@ public class OpenAddressingHashMap {
                 size++;
                 return true;
             }
-            for (int i = hash + 1; i != hash; i = (i + 1) % table.length) {
+            int step=1;
+            for (int i = hash + 1; i != hash; i = (i + step*step) % table.length) {
                 if (table[i]!=null) {
                     if (table[i].isDeleted()) {
                         table[i] = new Entry(key, value);
@@ -97,6 +98,7 @@ public class OpenAddressingHashMap {
                     size++;
                     return true;
                 }
+                step++;
             }
         }
         table[hash] = new Entry(key, value);
@@ -120,13 +122,15 @@ public class OpenAddressingHashMap {
                 return table[hash].getValue();
             }
         }
-            for (int i = hash + 1; i != hash; i = (i + 1) % table.length) {
-               if (table[i]!=null) {
-                   if (table[i].getKey() == key && !table[i].isDeleted()) {
-                       return table[i].getValue();
-                   }
-               }
+        int step=1;
+        for (int i = hash + 1; i != hash; i = (i + step*step) % table.length) {
+            if (table[i]!=null) {
+                if (table[i].getKey() == key && !table[i].isDeleted()) {
+                    return table[i].getValue();
+                }
             }
+            step++;
+        }
         throw new NullPointerException("No such element");
     }
 
@@ -137,11 +141,13 @@ public class OpenAddressingHashMap {
                 table[hash].deleteEntry();
                 return true;
             }
-            for (int i = hash + 1; i != hash; i = (i + 1) % table.length) {
+            int step=1;
+            for (int i = hash + 1; i != hash; i = (i + step*step) % table.length) {
                 if (table[i].getValue() == key && !table[i].isDeleted()) {
                     table[i].deleteEntry();
                     return true;
                 }
+                step++;
             }
             return false;
         } catch (NullPointerException e){
