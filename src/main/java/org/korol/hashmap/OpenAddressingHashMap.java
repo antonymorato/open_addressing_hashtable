@@ -4,6 +4,10 @@
  */
 
 package org.korol.hashmap;
+/**
+ * Simple implementation
+ * of open addressing hashtable
+ */
 
 public class OpenAddressingHashMap {
 
@@ -100,7 +104,15 @@ public class OpenAddressingHashMap {
         return true;
     }
 
-    public long get(int key) throws NoSuchElementExeption {
+
+    /**
+     * @param key
+     * @return value if exists
+     * also can throw unchecked NullPointerException,
+     * so you need to use
+     * @method containsKey to check if the key is present
+     */
+    public long get(int key){
         int hash = hash(key);
 
         if (table[hash] != null){
@@ -115,7 +127,7 @@ public class OpenAddressingHashMap {
                    }
                }
             }
-        throw new NoSuchElementExeption();
+        throw new NullPointerException("No such element");
     }
 
     public boolean remove(int key) {
@@ -137,10 +149,12 @@ public class OpenAddressingHashMap {
         }
     }
 
-    private boolean containsKey(int key){
-        for (Entry el:table){
-            if (el.getKey()==key)
-                return true;
+    public boolean containsKey(int key){
+        for (Entry el:table) {
+            if (el != null) {
+                if (el.getKey() == key)
+                    return true;
+            }
         }
         return false;
     }

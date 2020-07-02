@@ -6,6 +6,7 @@
 package org.korol.hashmap;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
@@ -30,11 +31,17 @@ public class OpenAddressingHashMapTest  {
         hashMap.put(key,firstValue);
         hashMap.put(key,secondValue);
         hashMap.remove(key);
-        try {
+        if (hashMap.containsKey(key))
             assertEquals(secondValue,hashMap.get(key));
-        } catch (NoSuchElementExeption noSuchElementExeption) {
-            noSuchElementExeption.printStackTrace();
-        }
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void invalidResultGetTest(){
+        int key=1;
+        int invalidKey=5;
+        long value=999;
+        hashMap.put(key,value);
+        hashMap.get(invalidKey);
     }
 
     @Test
@@ -42,11 +49,8 @@ public class OpenAddressingHashMapTest  {
         int key=172;
         long value=228;
         hashMap.put(key,value);
-        try {
+        if (hashMap.containsKey(key))
             assertEquals(value,hashMap.get(key));
-        } catch (NoSuchElementExeption noSuchElementExeption) {
-            noSuchElementExeption.printStackTrace();
-        }
     }
 
     @Test
