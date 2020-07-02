@@ -68,7 +68,7 @@ public class OpenAddressingHashMap {
         return true;
     }
 
-    public long get(int key) {
+    public long get(int key) throws NoSuchElementExeption {
         int hash = hash(key);
 
         if (table[hash] != null){
@@ -83,10 +83,7 @@ public class OpenAddressingHashMap {
                    }
                }
             }
-            return 0;
-
-
-
+        throw new NoSuchElementExeption();
     }
     @Override
     public String toString() {

@@ -19,15 +19,7 @@ public class OpenAddressingHashMapTest  {
 
     @Before
     public void setUp() {
-
         hashMap=new OpenAddressingHashMap();
-    }
-
-
-
-    @Test
-    public void putTest(){
-
     }
 
     @Test
@@ -38,7 +30,11 @@ public class OpenAddressingHashMapTest  {
         hashMap.put(key,firstValue);
         hashMap.put(key,secondValue);
         hashMap.remove(key);
-        assertEquals(secondValue,hashMap.get(key));
+        try {
+            assertEquals(secondValue,hashMap.get(key));
+        } catch (NoSuchElementExeption noSuchElementExeption) {
+            noSuchElementExeption.printStackTrace();
+        }
     }
 
     @Test
@@ -46,7 +42,11 @@ public class OpenAddressingHashMapTest  {
         int key=172;
         long value=228;
         hashMap.put(key,value);
-        assertEquals(value,hashMap.get(key));
+        try {
+            assertEquals(value,hashMap.get(key));
+        } catch (NoSuchElementExeption noSuchElementExeption) {
+            noSuchElementExeption.printStackTrace();
+        }
     }
 
     @Test
@@ -57,7 +57,6 @@ public class OpenAddressingHashMapTest  {
         }
         assertEquals(expectedSize,hashMap.size());
     }
-
 
     @Test
     public void amplificationOfCapacityTest() throws NoSuchFieldException, IllegalAccessException {
